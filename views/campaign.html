@@ -1,0 +1,59 @@
+<div class="campaign"> <!--data-ng-show="flag.showCampaign"-->
+	<div class="campaign-headline">
+		<!-- campaign name -->
+		<span class="campaign-name bold bigger">{{campaign.name}}</span>
+		<!-- campaign id -->
+		<span class="campaign-id">(#<span >{{campaign.id}}</span>)</span>
+		<!-- campaign status overlay -->
+		<div class="campaign-statusoptions" data-ng-show="flag.showCampaignStatusOptions">
+			<div class="click" data-ng-repeat="(code, status) in text.status" data-ng-click="action.setStatus($event, code)"><i class="icon-circle campaign-status-{{code}}"></i> {{status}}</div>
+		</div>
+		<!-- campaign status -->
+		<span class="click" data-ng-click="action.changeStatus($event)"><i class="icon-circle campaign-status-{{campaign.status}}"></i> <span class="camapign-status-description">({{text.status[campaign.status]}})</span></span>
+		<!-- campaign dates -->
+		<span class="campaign-data">
+			<span data-jq-datepicker="campaign.start"></span> - <span data-jq-datepicker="campaign.end" ></span>
+		</span>
+	</div>
+	<hr/>
+	<!-- campaign budget -->
+	<div class="campaign-budget">
+		<div class="section-name">budget</div>
+		<div class="input-prepend">
+			<span class="label">total budget</span>
+			<input type="text" class="span2" data-ng-model="campaign.budget.total">
+		</div>
+		<div class="input-prepend">
+			<span class="label">daily budget</span>
+			<input type="text" class="span2" data-ng-model="campaign.budget.daily">
+		</div>
+	</div>
+	<hr/>
+	<!-- campaign pricing -->
+	<div class="campaign-pricing margin-bottom-25">
+		<div class="section-name">pricing</div>
+		<div class="campaign-event-{{$index}}" data-ng-repeat="event in campaign.events">
+			<div class="input-prepend">
+				<span class="label">event</span>
+				<input type="text" class="span2" data-ng-model="event.name">
+			</div>
+			<div class="input-prepend">
+				<span class="label">price</span>
+				<input type="text" class="span2" data-ng-model="event.price">
+			</div>
+			<i class="icon-trash click" data-ng-click="action.removeEvent($event, $index)"></i>
+		</div>
+		<button class="btn btn-mini" data-ng-click="action.addEvent($event)"><i class="icon-plus"></i> add event</button>
+	</div>
+	<div class="campaign-action row-fluid">
+		<div class="span4">
+			<button class="btn btn-success" data-ng-click="action.save($event)"><i data-ng-class="css.saveCampaign"></i> save</button>
+		</div>
+		<div class="span4 offset2">
+			<div class="btn-group">
+				<a href="#/campaign" class="btn btn-danger click" ><i class="icon-reply"></i> back</a>
+				<a class="btn btn-danger click" data-ng-click="action.reset($event)"><i class="icon-remove"></i> reset</a>
+			</div>
+		</div>
+	</div>
+</div>

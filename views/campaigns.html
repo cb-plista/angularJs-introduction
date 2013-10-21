@@ -1,0 +1,12 @@
+<div class="campaigns">
+	<div class="headline">
+		<h3>campaign list</h3>
+	</div>
+	<div class="list">
+		<ul>
+			<li data-ng-repeat="campaign in campaigns">
+				<a data-ng-href="#/campaign/{{campaign.id}}" class="campaign-item click"><i class="icon-smile"></i> {{campaign.name}}</a>
+			</li>
+		</ul>
+	</div>
+</div>
