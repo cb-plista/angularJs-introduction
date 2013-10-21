@@ -17,11 +17,9 @@
 			.when('/campaign/:id', {
 				templateUrl: 'views/campaign.html',
 				controller: 'CampaignCtrl',
-				resolve : {
-					campaign : ['CampaignLoader', function(CampaignLoader){
-						return CampaignLoader();
-					}]
-				}
+				resolve : ['CampaignConnector', function(CampaignConnector){
+						return CampaignConnector();
+				}]
 			})
 			.otherwise({
 				redirectTo: '/campaign'

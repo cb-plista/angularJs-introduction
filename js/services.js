@@ -4,28 +4,27 @@
 	var ng = window.angular || false;
 	if(ng === false) { console.error('checkout http://angular.org'); return; }
 
-	var service = ng.module('plista.service', ['ngResource']);
+	var service = ng.module('plista.service', []);
 
-	service.factory('Campaign', ['$resource',
-		function($resource){
-			return $resource('/api/index.php?q=/campaign/:id', {id: '@id'});
-		}
-	]);
+	service.factory('CampaignConnector', ['$rootScope', '$route', function($rootScope, $route){
+		// change this the URL to ur ipAddress
+		$rootScope.socket = io.connect('http://192.168.2.222:4000');
+		return function(){
+			$rootScope.socket.on('initData', function(data){
+				$rootScope.$broadcast('updateCampaign', data);
+				$rootScope.$apply();
+			});
+			$rootScope.socket.on('updateData', function(data){
+				$rootScope.$broadcast('updateCampaign', data);
+				$rootScope.$apply();
+			});
+			$rootScope.socket.emit('listenStart', {
+				model: 'campaign',
+				id: $route.current.params.id
+			});
+		};
+	}]);
 
-	service.factory('CampaignLoader', ['$rootScope', '$q', 'Campaign', '$route',
-		function($rootScope, $q, Campaign, $route){
-			return function(){
-				var delay = $q.defer();
-				Campaign.get({ id: $route.current.params.id },
-					function(data){ // success
-						delay.resolve(data);
-					}, function(){ // error
-						delay.resolve({error: true});
-					}
-				);
-				return delay.promise;
-			};
-		}
-	]);
+
 
 })(document, window);
